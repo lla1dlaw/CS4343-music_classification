@@ -5,19 +5,44 @@ description = "Final Project for CS-4343, WPI, Fall 26'"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "kaggle>=2.2.4",
+    "kagglehub>=1.0.2",
     "torchmetrics>=1.9.0",
-    "torchvision>=0.29.0",
-    "torch>=2.14.0",
+    "torchvision>=0.28.0",
+]
+
+[project.optional-dependencies]
+cpu = [
+    "torch>=2.13.0",
+    "torchvision>=0.28.0",
+]
+gpu = [
+    "torch>=2.13.0",
+    "torchvision>=0.28.0",
+]
+
+[tool.uv]
+# Prevent uv from trying to install both CPU and GPU versions at once
+conflicts = [
+  [ { extra = "cpu" }, { extra = "gpu" } ]
 ]
 
 [tool.uv.sources]
-torch = { index = "pytorch" }
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu129", extra = "gpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu129", extra = "gpu" },
+]
+
+# Explicitly define the PyTorch indexes
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [[tool.uv.index]]
-url = "https://pypi.org/simple"
-
-[[tool.uv.index]]
-name = "pytorch"
+name = "pytorch-cu129"
 url = "https://download.pytorch.org/whl/cu129"
-
+explicit = true
