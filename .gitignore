@@ -13,4 +13,4 @@ wheels/
 .env*
 
 # big ah datasets
-./data/
+*data/
