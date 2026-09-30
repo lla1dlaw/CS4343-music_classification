@@ -7,18 +7,25 @@ import numpy as np
 from PIL import Image
 
 
-transform = tf.Compose([
+# use this function in the training loop function
+def make_loaders(shuffle: bool = True):
+    return _make_loader("training"), _make_loader("validation"), _make_loader("testing")
+
+
+def _make_loader(split: str, shuffle: bool = True):
+    transform = tf.Compose([
         tf.Grayscale(num_output_channels=3),
         tf.Resize((224, 224)),
         tf.PILToTensor()
     ])
-
-def make_loader(split, shuffle):
     dataset = ds.ImageFolder(root=f"data/spotify44k/{split}", transform=transform)
     return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4), dataset.classes
 
 
-def build_tensor(split):
+# this actually isn't needed anymore because of 
+# the use of the ds.ImageFolder() function above which takes care of walking the 
+# directories for us
+def build_tensor(split: str):
     root = Path("data/spotify44k") / split
     genres = sorted(p.name for p in root.iterdir() if p.is_dir())   # folder names = genres
 
@@ -40,6 +47,9 @@ def build_tensor(split):
 
 
 if __name__ == "__main__":
+    print("-" * 10)
+    loader = make_loader("")
+
     data, genres = build_tensor("training")
     print(data.shape)                       # torch.Size([N, 225, 224])
 
@@ -49,10 +59,3 @@ if __name__ == "__main__":
         print(data[i, :224])                # the 2D image
 
     torch.save({"data": data, "genres": genres}, "data/spotify44k/train_tensor.pt")
-
-
-        
-        
-
-    
-

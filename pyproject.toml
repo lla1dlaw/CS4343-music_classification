@@ -1,12 +1,14 @@
 [project]
 name = "final-project"
 version = "0.1.0"
-description = "Add your description here"
+description = "Final Project for CS-4343, WPI, Fall 26'"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "kaggle>=2.2.4",
     "torchmetrics>=1.9.0",
+    "torchvision>=0.29.0",
+    "torch>=2.14.0",
 ]
 
 [tool.uv.sources]
