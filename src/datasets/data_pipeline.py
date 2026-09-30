@@ -52,6 +52,9 @@ if __name__ == "__main__":
         print(training_data[i, :224])                # the 2D image
 
     torch.save({"data": training_data, "genres": training_genres}, "data/spotify44k/train_tensor.pt")
+    torch.save({"data": val_data, "genres": val_genre}, "data/spotify44k/val_tensor.pt")
+    torch.save({"data": testing_data, "genres": testing_genre}, "data/spotify44k/testing_tensor.pt")
+
 
 
         
