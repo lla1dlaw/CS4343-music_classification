@@ -48,10 +48,21 @@ def _make_loader(split: str, shuffle: bool = True) -> DL:
     return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4)
 
 
+<<<<<<< HEAD
 def build_tensor(split: str): 
+=======
+<<<<<<< Updated upstream
+def build_tensor(split: str):
+>>>>>>> c179334d631ee747bd5e506b9a536e46e9d8e56b
 # this function actually isn't needed anymore because of 
 # the use of the ds.ImageFolder() function above which takes care of walking the 
 # directories for us
+=======
+# this actually isn't needed anymore because of 
+# the use of the ds.ImageFolder() function above which takes care of walking the 
+# directories for us
+def build_tensor(split: str):
+>>>>>>> Stashed changes
     root = Path("data/spotify44k") / split
     genres = sorted(p.name for p in root.iterdir() if p.is_dir())   # folder names = genres
 
@@ -72,15 +83,24 @@ def build_tensor(split: str):
 
 
 if __name__ == "__main__":
+<<<<<<< Updated upstream
     train, val, test = make_loaders()
     
     sample_input, sample_labels = next(iter(train))
     train_num_samples = len(train.dataset)
     val_num_samples = len(val.dataset)
     test_num_samples = len(test.dataset)
+=======
+    print("-" * 10)
+    loader = make_loader("")
+
+    data, genres = build_tensor("training")
+    print(data.shape)                       # torch.Size([N, 225, 224])
+>>>>>>> Stashed changes
 
     total_samples = train_num_samples + val_num_samples + test_num_samples
 
+<<<<<<< Updated upstream
     train_prop = train_num_samples / total_samples
     val_prop = val_num_samples / total_samples
     test_prop = test_num_samples / total_samples
@@ -117,3 +137,10 @@ if __name__ == "__main__":
 #     torch.save({"data": testing_data, "genres": testing_genre}, "data/spotify44k/testing_tensor.pt")
 #
 #     torch.save({"data": data, "genres": genres}, "data/spotify44k/train_tensor.pt")
+=======
+    torch.save({"data": training_data, "genres": training_genres}, "data/spotify44k/train_tensor.pt")
+    torch.save({"data": val_data, "genres": val_genre}, "data/spotify44k/val_tensor.pt")
+    torch.save({"data": testing_data, "genres": testing_genre}, "data/spotify44k/testing_tensor.pt")
+
+    torch.save({"data": data, "genres": genres}, "data/spotify44k/train_tensor.pt")
+>>>>>>> Stashed changes
