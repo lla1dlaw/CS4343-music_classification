@@ -48,7 +48,7 @@ def _make_loader(split: str, shuffle: bool = True) -> DL:
     return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4)
 
 
-def build_tensor(split: str):
+def build_tensor(split: str): 
 # this function actually isn't needed anymore because of 
 # the use of the ds.ImageFolder() function above which takes care of walking the 
 # directories for us
