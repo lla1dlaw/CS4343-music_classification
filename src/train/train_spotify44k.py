@@ -1,18 +1,18 @@
 import torch
 from torch import nn
+from torch.utils.data import DataLoader
 from torchmetrics import MetricCollection
 from torchmetrics.classification import (
     MulticlassAccuracy,
+    MulticlassF1Score,
     MulticlassPrecision,
     MulticlassRecall,
-    MulticlassF1Score,
-    MulticlassConfusionMatrix,
 )
+
 from datasets.data_pipeline import make_loaders
-from torch.utils.data import DataLoader
 
 
-def update_metrics(metrics, logits: torch.tensor):
+def update_metrics(metrics, logits: torch.Tensor):
     pass
 
 
