@@ -63,8 +63,6 @@ function run_local() {
         echo "No directory '$EXPERIMENTS_DIR' found."
         exit 1
     fi
-
-    # setup env logic is now sourced directly
 }
 
 function main() {
