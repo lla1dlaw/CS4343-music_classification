@@ -1,0 +1,964 @@
+This file is a merged representation of the entire codebase, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of the entire repository's contents.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+config/
+  config.env
+  defaults.env
+docs/
+  proposal/
+    gantt.png
+    proposal.pdf
+    proposal.typ
+    sources.bib
+    sources.txt
+  proposal_assignment.pdf
+experiments/
+  alexnet_control/
+    src/
+      main.py
+    run_experiment.sh
+  resnet_control/
+    src/
+      main.py
+    ResNet.py
+    run_experiment.sh
+scripts/
+  run-remote.sh
+src/
+  datasets/
+    __init__.py
+    data_pipeline.py
+  evaluate/
+    __init__.py
+  modules/
+    __init__.py
+  train/
+    __init__.py
+    train_spotify44k.py
+  __init__.py
+templates/
+  experiment_/
+    src/
+      main.py
+    run_experiment.sh
+.gitignore
+.python-version
+defaults.env
+pyproject.toml
+README.md
+run.sh
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path="experiments/resnet_control/ResNet.py">
+import torch
+import urllib
+import torchvision
+
+model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=True)
+
+url, filename = () #load the data from the data set
+## Examples from pytorch documentation to load a file from a url
+try: urllib.URLopener().retrieve(url, filename)
+except: urllib.request.urlretrieve(url, filename)
+
+
+# Execution
+preprocess = transforms.Compose([
+    
+])
+</file>
+
+<file path="docs/proposal/proposal.typ">
+#let project(title: "", authors: (), date: none, body) = {
+  set document(title: title, author: authors, date: auto)
+
+  align(center + horizon)[
+    #text(17pt, weight: "bold", title)
+    
+    #v(1em) // Vertical spacing
+    #authors.join(", ")
+    
+    #v(1em)
+    #date
+  ]
+  
+  v(2em) // Space before the main text begins
+  
+
+  body
+}
+
+#show: project.with(
+  title: "A Comparison of CNN Architectures for Music Genre Classification",
+  authors: (
+    "Joseph Tully",
+    "Liam Laidlaw" 
+    ,
+  ),
+  date: datetime.today().display(),
+)
+#pagebreak()
+
+// --- Table of Contents ---
+#outline()
+#pagebreak()
+
+
+
+
+#set heading(numbering: "1.1 |")
+= Problem and Motivation
+== Purpose
+
+The purpose of this project is to attempt to develop a model using the same architecture as ResNet@ResNet or AlexNet@AlexNet that uses less parameters than their predecessors and that can obtain performance on par with or exeeding these models. We plan to test 4 models, the smallest published versions of the official ResNet and AlexNet models, and two custom models with the same architecture and less parameters. The performance of these models will be compared and analyzed in an attempt to explain differences in performance between the different architectures and across the different parameter counts for each model. The models will then be ranked based on performance.  
+
+== Why Does it Matter?
+
+Categorizing music. Our model will be able to take in music and determine what genre the music is. We will compare our model to the Cyanite AI model. This model is widely accepted as one of the most accurate, hitting marks as close as 95%. Our goal is to meet or beat this score. People around the world use apps like shazam, which can identify exact songs. Where our model comes in handy is for apps such as spotify or apple music. These applications have genre specific playlists and screens within the application. Our model could be used as one of these 'ease of life' features. 
+
+== Research Questions / Hypothesis
+
+We would like to find out just what kind of feature patterns the model will find when looking at the spectrograph. But other research questions arose as a result. What would be a good training set size for the model? How many different patterns can direct the model to a specific genre? 
+
+We do have our initial thoughts though. We believe the model will search for specific locations on the mels spectrograph, and if the graph is particularly active in those areas, its a specific genre. As for training set we found roughly 20 thousand files. And are going to start with a small amount of these files for training somewhere between 5,000 and 10,000.
+
+= Proposed Solution & Course connection
+== Connection To Course: CS-4343
+
+CS 4343 introduces the concept of Convolutional Neural Networks (CNNs) by analyzing the architecture of groundbreaking computer vision models including AlexNet@AlexNet and ResNet@ResNet. AlexNet most notably won the 2012 ImageNet Large Scale Visual Recognition Challenge (ILSVRC), and ResNet who famously introduced the idea of skip connections in side of convolutional layers which decreased the effects of the vanishing gradient problem in extremely deep CNNs@ResNet. Our group has decided to benchmark our model's performance against these models using the metrics listed in section 4.
+
+= Data Plan 
+
+Our data set is from Kaggle@data_set and includes 18,829 128x431 pixel  Mel-Spectrograms, each representing 10 seconds of a song with an accompanying genre label. The spectrograms are stored as serialized numpy arrays totalling 4.16GB in size, and will be loaded into custom data loader objects for training and testing. Our model will use a convolutional network to learn the features on its own. We will use 70% of the data set for training (13,180 samples), 10% for validation (1,883 samples), and 20% for testing (3,765). The dataset used in this project is publicly available, free to use, and openly available through Kaggle@data_set.
+
+= Model Evaluation and Analysis
+To compare the models, our group will use various different classification performance metrics including Mean Accuracy & Variance, Precision, Recall, and F1-Score. We will also include analysis of confusion matrices for the various models across the genres included in the testing data. These metrics will be compiled into a final comparative performance analysis of each model. Successful completion of this experiment would yield strong findings derived from this analysis that provide insight into the benefits and drawbacks of various CNN architectures when used for mel-spectrogram music genre classification. 
+
+= Feasibility, resources, and risks
+== Software Frameworks, and Potential Dependencies
+
+We will be using Vscode as our compiler, and Github as our cloud based storage / share software. We will be writing this project in python.
+=== Potential Dependencies
+- pytorch
+- numpy
+- kaggle hub
+
+== Technical / Data Risks
+
+By using an open source data set that is provided from unknown sources, we have some potential risks with our data. This includes if some genre's overlap(Metal / Hard Rock), or if multiple clips are from the same song. This could result in the same song ending up in both the training set and the testing set. As for technical risks, Training such a large data set requires that we use a GPU. Neither of our laptops have that kind of computing power. Our solution is to use the schools HPC Turing computer, we will access it through either VPN or SSH. If our plan with the spectrographs happens to fall through, we will attempt to use the waveform data of songs/clips. This will allow us to continue to solve the issue we want with a different set of data. 
+
+= Team Responsibilities
+
+Our Responsibilities will be split evenly according to our current plan, this division of tasks may be split further and may change depending on how the project is going. Both members of our current team are student athletes, one of which is in season. Our responsibilities will be changing as circumstance does. 
+
+=== Table of Responsibilities 
+#table(
+  columns: (auto, 1fr),
+  inset: 8pt,
+  table.header[*Member*][*Responsibilities*],
+  [Joseph Tully], [Data preprocessing, Data Pipe-line, evaluation, report writing],
+  [Liam Laidlaw], [Data splitting, ResNet model, evaluation, report writing],
+)
+
+
+
+= Timeline
+#image("gantt.png", width: 100%)  
+#pagebreak()
+#bibliography("sources.bib")
+</file>
+
+<file path="docs/proposal/sources.bib">
+@misc{data_set,
+  author  = {{The Pixel Pioneers}},
+  title   = {Music Genre Classification from Mel Spectrograms},
+  year    = {2026},
+  note    = {Kaggle competition},
+  url     = {https://www.kaggle.com/competitions/music-genre-classification-from-mel-spectrograms-dl4cv},
+  urldate = {2026-09-22}
+}
+
+@misc{cyanite,
+  author  = {{Cyanite}},
+  title   = {Cyanite.ai: AI Music Tagging and Similarity Search},
+  year    = {2026},
+  url     = {https://cyanite.ai/},
+  urldate = {2026-09-22}
+}
+
+@inproceedings{AlexNet,
+  title     = {ImageNet Classification with Deep Convolutional Neural Networks},
+  author    = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E.},
+  booktitle = {Advances in Neural Information Processing Systems 25 (NIPS 2012)},
+  editor    = {Pereira, F. and Burges, C. J. C. and Bottou, L. and Weinberger, K. Q.},
+  publisher = {Curran Associates, Inc.},
+  pages     = {1097--1105},
+  year      = {2012},
+  url       = {https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks}
+}
+
+@inproceedings{ResNet,
+  title     = {Deep Residual Learning for Image Recognition},
+  author    = {He, Kaiming and Zhang, Xiangyu and Ren, Shaoqing and Sun, Jian},
+  booktitle = {Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+  pages     = {770--778},
+  year      = {2016},
+  doi       = {10.1109/CVPR.2016.90}
+}
+</file>
+
+<file path="docs/proposal/sources.txt">
+https://cyanite.ai/
+https://www.aimusicpreneur.com/ai-tools/cyanite/
+https://www.kaggle.com/competitions/music-genre-classification-from-mel-spectrograms-dl4cv/data
+</file>
+
+<file path="experiments/alexnet_control/run_experiment.sh">
+#!/usr/bin/env bash
+
+#SBATCH --nodes 1
+#SBATCH --cpus-per-task 4
+#SBATCH --mem=8g
+#SBATCH --job-name "Example GPU Job"
+#SBATCH --partition short
+#SBATCH --time 0-2:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="H200|H100"
+#SBATCH --output logs/%j.out
+
+# source and setup the runtime
+source ../hpc_scripts/experiment_setup.sh
+setup-env 
+
+# run main entrypoint
+uv run ./src/main.py
+</file>
+
+<file path="experiments/resnet_control/src/main.py">
+def main():
+    pass 
+
+if __name__ == "__main__":
+     main()
+</file>
+
+<file path="experiments/resnet_control/run_experiment.sh">
+#!/usr/bin/env bash
+
+#SBATCH --nodes 1
+#SBATCH -cpus-per-task 4
+#SBATCH --mem=8g
+#SBATCH --job-name "Example GPU Job"
+#SBATCH --partition short
+#SBATCH --time 0-2:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="H200|H100"
+#SBATCH --output logs/%j.out
+
+# source and setup the runtime
+source ../hpc_scripts/experiment_setup.sh
+setup-env 
+
+# run main entrypoint
+uv run ./src/main.py
+</file>
+
+<file path="scripts/run-remote.sh">
+
+</file>
+
+<file path="src/datasets/__init__.py">
+
+</file>
+
+<file path="src/evaluate/__init__.py">
+
+</file>
+
+<file path="src/modules/__init__.py">
+
+</file>
+
+<file path="src/train/__init__.py">
+
+</file>
+
+<file path="src/__init__.py">
+
+</file>
+
+<file path="templates/experiment_/src/main.py">
+def main():
+    pass 
+
+if __name__ == "__main__":
+     main()
+</file>
+
+<file path="templates/experiment_/run_experiment.sh">
+#!/usr/bin/env bash
+
+#SBATCH --nodes 1
+#SBATCH -cpus-per-task 4
+#SBATCH --mem=8g
+#SBATCH --job-name "Example GPU Job"
+#SBATCH --partition short
+#SBATCH --time 0-2:00:00
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="H200|H100"
+#SBATCH --output logs/%j.out
+
+# source and setup the runtime
+source ../hpc_scripts/experiment_setup.sh
+setup-env 
+
+# run main entrypoint
+uv run ./src/main.py
+</file>
+
+<file path=".python-version">
+3.12
+</file>
+
+<file path="defaults.env">
+HPC_HOSTNAME=turing.wpi.edu
+KAGGLE_API_TOKEN=KGAT_aabf971cc3861096698a2e881301cf65
+</file>
+
+<file path="config/config.env">
+# Any variables listed here will override the defaults file
+</file>
+
+<file path="config/defaults.env">
+CONFIG_DIR="$(pwd)/config"
+HPC_HOSTNAME="turing.wpi.edu"
+</file>
+
+<file path="README.md">
+# Deep Learning Final Project 
+### Liam Laidlaw, Joeseph Tully, Joshua Bearfield
+</file>
+
+<file path="experiments/alexnet_control/src/main.py">
+import torchvision
+from torch.optim import Adam
+from src.train import train_spotify44k
+
+import os
+from pathlib import Path
+
+
+def main():
+    model = torchvision.models.alexnet()
+    optimizer = Adam(
+        model.parameters(),
+        lr = 0.004,
+    )
+    epochs = 2
+
+    log_dir = Path(os.getcwd()).parent.parent / "results"
+    log_dir.mkdir(exist_ok=True)
+
+    train_results, test_results = train_spotify44k.run_train_test(
+        model,
+        optimizer,
+        epochs,
+        str(log_dir)
+    )
+
+if __name__ == "__main__":
+     main()
+</file>
+
+<file path="run.sh">
+#!/usr/bin/env bash
+
+set -e
+
+# set filenames for configs and entrypoints
+DEFAULT_CONFIG_FILENAME="default.env"
+USER_CONFIG_FILENAME="config.env" # values in this file override the defaults
+
+PROJECT_ROOT="$(pwd)"
+CONFIG_DIR="$PROJECT_ROOT/config"
+SCRIPTS_DIR="$PROJECT_ROOT/scripts"
+EXPERIMENTS_DIR="$PROJECT_ROOT/experiments"
+
+SRC_DIR="$PROJECT_ROOT/src"
+
+DEFAULT_CONFIG="$CONFIG_DIR/$DEFAULT_CONFIG_FILENAME"
+USER_CONFIG="$CONFIG_DIR/$USER_CONFIG_FILENAME"
+
+export PROJECT_ROOT
+export CONFIG_DIR
+export SCRIPTS_DIR
+export SRC_DIR
+
+function usage() {
+    echo "Usage: $0 [-h] [-a remote-address]"
+    echo "  -h                  Display this message"
+    echo "  -a remote-address   Specify the remote address to run these experiments on"
+}
+
+function setup-env() {
+    module load uv 
+    
+    # load configs
+    set -a
+    source "$DEFAULT_CONFIG"
+    set +a
+
+    set -a
+    source "$USER_CONFIG"
+    set +a
+    
+    load modules
+    module load cuda
+    uv sync
+}
+
+function run_on_hpc() {
+    if ! [ -d "$EXPERIMENTS_DIR" ]; then 
+        echo "No directory '$EXPERIMENTS_DIR' found."
+        exit 1
+    fi
+
+    setup-env
+    
+    # loop over experiment directories and run their slurm scripts
+    shopt -s nullglob
+    for dir in $EXPERIMENTS_DIR; do 
+        sbatch "${dir%/}/run_experiment.sh"
+    done
+}
+
+function run_local() {
+    if ! [ -d "$EXPERIMENTS_DIR" ]; then 
+        echo "No directory '$EXPERIMENTS_DIR' found."
+        exit 1
+    fi
+
+    setup-env
+}
+
+function main() {
+    while getopts ":hla:" opt; do 
+        case "${opt}" in 
+            h)
+                usage
+                ;;
+            a)
+                HPC_HOSTNAME="${OPTARG}"
+                ;;
+
+            l)  
+                RUN_LOCAL=true
+                ;;
+            \?)
+                echo "Error: Invalid option -${OPTARG}" >&2
+                usage
+                ;;
+            :)
+                echo "Error: Option -${OPTARG} requires an argument." >&2
+                usage
+                ;;
+        esac
+    done
+
+    if RUN_LOCAL; then 
+        run_local 
+    else 
+        run_on_hpc 
+    fi
+}
+</file>
+
+<file path=".gitignore">
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# env files
+.env*
+
+# big ah datasets
+*data/
+</file>
+
+<file path="src/train/train_spotify44k.py">
+from pathlib import Path
+
+import polars as pl
+import torch
+from torch import nn, optim
+from torch.utils.data import DataLoader
+from torchmetrics import MetricCollection
+from torchmetrics.aggregation import MeanMetric
+from torchmetrics.classification import (
+    MulticlassAccuracy,
+    MulticlassF1Score,
+    MulticlassPrecision,
+    MulticlassRecall,
+)
+
+from datasets.data_pipeline import make_Spotify44k_loaders
+
+
+def train_one_epoch( 
+        model: nn.Module,
+        train_loader: DataLoader,
+        val_loader: DataLoader,
+        criterion,
+        optimizer,
+        metrics: dict[str, MetricCollection],
+        train_loss_metric: MeanMetric,
+        validation_loss_metric: MeanMetric,
+        device: torch.device,
+    ):
+
+
+    for inputs, targets in train_loader:
+        inputs, targets = inputs.to(device), targets.to(device) 
+        optimizer.zero_grad()
+        logits = model(inputs)
+        loss, _= criterion(logits, targets)
+        loss.backward()
+        optimizer.step()
+        metrics['train'].update(logits, targets)
+        train_loss_metric.update(loss.item())
+
+    model.eval()
+    with torch.no_grad(): 
+        for input, targets in val_loader:
+            input, targets = input.to(device), targets.to(device)
+            logits = model(input)
+            loss = criterion(logits, targets)
+            metrics['val'].update(logits)
+            validation_loss_metric.update(loss.item())
+
+
+def format_big_number(num):
+    for unit in ['', 'K', 'M', 'B', 'T']:
+        if abs(num) < 1000:
+            # Format to 1 decimal place if it's a decimal, otherwise keep it clean
+            return f"{num:.1f}".rstrip('0').rstrip('.') + unit if unit else str(num)
+        num /= 1000.0
+    return f"{num:.1f}Q"
+
+def fit_model(
+        model: nn.Module,
+        optimizer: optim.Optimizer,
+        train_loader: DataLoader,
+        val_loader: DataLoader,
+        metrics: dict[str, MetricCollection],
+        epochs: int,
+        log_dir: Path,
+    ) -> pl.DataFrame:
+    num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_training_data.csv"
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    criterion = nn.CrossEntropyLoss()
+    train_loss_metric = MeanMetric().to(device)
+    val_loss_metric = MeanMetric().to(device)
+    history = []
+
+    for epoch in range(epochs):
+        train_one_epoch(
+            model,
+            train_loader,
+            val_loader,
+            criterion,
+            optimizer,
+            metrics,
+            train_loss_metric,
+            val_loss_metric,
+            device,
+        )
+        epoch_data = {
+            "epoch": epoch,
+            "train_loss": train_loss_metric.compute().item(),
+            "val_loss": val_loss_metric.compute().item(),
+        }
+
+        # record epoch metric results in polars frame
+
+        for metric_name, value in metrics['train'].items():
+            epoch_data[metric_name] = value.compute().item()
+         
+        for metric_name, value in metrics['val'].items():
+            epoch_data[metric_name] = value.compute().item()
+
+        history.append(epoch_data)
+
+        # reset metrics in preparation for next epoch
+        metrics['train'].reset()
+        metrics['val'].reset()
+        train_loss_metric.reset()
+        val_loss_metric.reset()
+    
+    # return metrics to the caller
+    df_history = pl.DataFrame(history)
+    df_history.write_csv(LOG_DIR)
+
+    return df_history
+
+def test_model(
+        model: nn.Module,
+        test_loader: DataLoader,
+        metrics: dict[str, MetricCollection],
+        log_dir: Path,
+    ) -> pl.DataFrame:
+    num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_testing_data.csv"
+
+    device = "gpu" if torch.cuda.is_available() else "cpu"
+    model.eval()  
+    criterion = nn.CrossEntropyLoss()
+    test_loss_metric = MeanMetric().to(device)
+
+    model.eval()
+    with torch.no_grad(): 
+        for inputs, targets in test_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            logits = model(input)
+            loss, _= criterion(logits, targets)
+            metrics['test'].update(logits)
+            test_loss_metric.update(loss.item())
+
+    test_loss = test_loss_metric.compute().item()
+
+    test_data = {
+        "test_loss": test_loss,
+    }
+
+    test_results = metrics['test'].compute()
+    for metric_name, value in test_results.items():
+        test_data[metric_name] = value.item()
+
+    
+    # return metrics to the caller
+    df_history = pl.DataFrame(test_data)
+    df_history.write_csv(LOG_DIR)
+
+    return df_history
+
+def run_train_test(
+        model: nn.Module,
+        optimizer: optim.Optimizer,
+        train_epochs: int,
+        log_dir: str,
+    ) -> tuple[pl.DataFrame, pl.DataFrame]:
+
+    log_path = Path(log_dir)
+    log_path.mkdir(exist_ok=True)
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = model.to(device)
+
+    train_loader, val_loader, test_loader = make_Spotify44k_loaders(shuffle=True)
+    num_classes = len(train_loader.dataset.classes)
+
+    base_metrics = MetricCollection({
+        "accuracy":         MulticlassAccuracy(num_classes=num_classes, average="micro"),
+        "top3_acc":         MulticlassAccuracy(num_classes=num_classes, topk=3, average="micro"),
+        "precision":        MulticlassPrecision(num_classes=num_classes, average="macro"),
+        "recall":           MulticlassRecall(num_classes=num_classes, average="macro"),
+        "f1":               MulticlassF1Score(num_classes=num_classes, average="macro"),
+    })
+    
+    metrics = {
+        "train": base_metrics.clone("train_").to(device),
+        "val":   base_metrics.clone("val_").to(device),
+        "test":  base_metrics.clone("test_").to(device),
+    }
+
+    optimizer = optim.Adam(model.parameters(), lr=1e-3)
+    
+
+    train_results = fit_model(
+        model, 
+        optimizer,
+        train_loader,
+        val_loader,
+        metrics,
+        train_epochs,
+        log_path,
+    )
+
+    test_results = test_model(
+        model,
+        test_loader,
+        metrics,
+        log_path,
+    )
+
+    return train_results, test_results
+</file>
+
+<file path="src/datasets/data_pipeline.py">
+# prepares the dataset found here: https://www.kaggle.com/datasets/mrodriguez2/spotify-3-second-mel-spectrograms
+
+import torch
+import torchvision
+from torch.utils.data import DataLoader as DL
+from torchvision import datasets as ds, transforms as tf
+from pathlib import Path
+import numpy as np
+from PIL import Image
+from pathlib import Path 
+import os
+import kagglehub
+
+
+# use this function in the training loop function
+def make_Spotify44k_loaders(shuffle: bool = True) -> tuple[DL, DL, DL]:
+    _download_spotify44k() # will only download if it needs to
+
+    return (
+        _make_loader("training", shuffle=shuffle),
+        _make_loader("validation", shuffle=shuffle),
+        _make_loader("testing", shuffle=shuffle),
+    )
+
+
+def _download_spotify44k():
+    project_root = Path(os.getenv("PROJECT_ROOT", default=os.getcwd()))
+    handle = "mrodriguez2/spotify-3-second-mel-spectrograms"
+    name = "spotify44k"
+    root = "data"
+    
+    dataset_root_path = Path(project_root, root)
+    dataset_path = dataset_root_path / name
+    
+    try: 
+        # requires KAGGLE_API_KEY variable to be set in the runtime env
+        kagglehub.dataset_download(handle=handle, path=name, output_dir=root)    
+    except FileExistsError: # dataset already exists!
+        print(f"Using existing dataset found at {dataset_path}")
+
+def _make_loader(split: str, shuffle: bool = True) -> DL:
+    transform = tf.Compose([
+        tf.Grayscale(num_output_channels=3),
+        tf.Resize((224, 224)),
+        tf.PILToTensor()
+    ])
+    dataset = ds.ImageFolder(root=f"data/spotify44k/{split}", transform=transform)
+    return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4)
+
+
+<<<<<<< HEAD
+def build_tensor(split: str): 
+=======
+<<<<<<< Updated upstream
+def build_tensor(split: str):
+>>>>>>> c179334d631ee747bd5e506b9a536e46e9d8e56b
+# this function actually isn't needed anymore because of 
+# the use of the ds.ImageFolder() function above which takes care of walking the 
+# directories for us
+=======
+# this actually isn't needed anymore because of 
+# the use of the ds.ImageFolder() function above which takes care of walking the 
+# directories for us
+def build_tensor(split: str):
+>>>>>>> Stashed changes
+    root = Path("data/spotify44k") / split
+    genres = sorted(p.name for p in root.iterdir() if p.is_dir())   # folder names = genres
+
+    # every (image path, genre number) pair, genre taken from the folder the image is in
+    files = [(img, label)
+             for label, genre in enumerate(genres)
+             for img in sorted((root / genre).glob("*.jpg"))]
+
+    data = torch.zeros((len(files), 225, 224), dtype=torch.uint8)
+    for n, (path, label) in enumerate(files):
+        img = Image.open(path).convert("L").resize((224, 224))   # "L" = grayscale, so 2D
+        data[n, :224, :] = torch.from_numpy(np.array(img))       # the image
+        data[n, 224, :] = label                                  # the label row
+        if n % 5000 == 0:
+            print(f"{n}/{len(files)}")
+
+    return data, genres
+
+
+if __name__ == "__main__":
+<<<<<<< Updated upstream
+    train, val, test = make_loaders()
+    
+    sample_input, sample_labels = next(iter(train))
+    train_num_samples = len(train.dataset)
+    val_num_samples = len(val.dataset)
+    test_num_samples = len(test.dataset)
+=======
+    print("-" * 10)
+    loader = make_loader("")
+
+    data, genres = build_tensor("training")
+    print(data.shape)                       # torch.Size([N, 225, 224])
+>>>>>>> Stashed changes
+
+    total_samples = train_num_samples + val_num_samples + test_num_samples
+
+<<<<<<< Updated upstream
+    train_prop = train_num_samples / total_samples
+    val_prop = val_num_samples / total_samples
+    test_prop = test_num_samples / total_samples
+
+    batch_shape = sample_input.shape
+    
+    print(f"Batch Shape: {batch_shape}")
+    print(f"Num Training Samples: {train_num_samples}")
+    print(f"Num Validation Samples: {val_num_samples}")
+    print(f"Num Testing Samples: {test_num_samples}")
+    
+    print(f"Proportions [train, val, test]: [{train_prop:.1f}, {val_prop:.1f}, {test_prop:.1f}]")
+
+
+# if __name__ == "__main__":
+#     print("-" * 10)
+#     loader = make_loader("")
+#
+#     data, genres = build_tensor("training")
+#     print(data.shape)                       # torch.Size([N, 225, 224])
+#     training_data, training_genres = build_tensor("training")
+#     testing_data, testing_genre = build_tensor("testing")
+#     val_data, val_genre = build_tensor("validation")
+#
+#     print(training_data.shape)                       # torch.Size([N, 225, 224])
+#
+#     for i in range(3):
+#         label = training_data[i, 224, 0].item()
+#         print(f"sample {i}: genre {label} = {training_genres[label]}")
+#         print(training_data[i, :224])                # the 2D image
+#
+#     torch.save({"data": training_data, "genres": training_genres}, "data/spotify44k/train_tensor.pt")
+#     torch.save({"data": val_data, "genres": val_genre}, "data/spotify44k/val_tensor.pt")
+#     torch.save({"data": testing_data, "genres": testing_genre}, "data/spotify44k/testing_tensor.pt")
+#
+#     torch.save({"data": data, "genres": genres}, "data/spotify44k/train_tensor.pt")
+=======
+    torch.save({"data": training_data, "genres": training_genres}, "data/spotify44k/train_tensor.pt")
+    torch.save({"data": val_data, "genres": val_genre}, "data/spotify44k/val_tensor.pt")
+    torch.save({"data": testing_data, "genres": testing_genre}, "data/spotify44k/testing_tensor.pt")
+
+    torch.save({"data": data, "genres": genres}, "data/spotify44k/train_tensor.pt")
+>>>>>>> Stashed changes
+</file>
+
+<file path="pyproject.toml">
+[project]
+name = "final-project"
+version = "0.1.0"
+description = "Final Project for CS-4343, WPI, Fall 26'"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "kagglehub>=1.0.2",
+    "polars>=1.44.2",
+    "tensorboard>=2.21.0",
+    "torchmetrics>=1.9.0",
+    "torchvision>=0.28.0",
+]
+
+[project.optional-dependencies]
+cpu = [
+    "torch>=2.13.0",
+    "torchvision>=0.28.0",
+]
+gpu = [
+    "torch>=2.13.0",
+    "torchvision>=0.28.0",
+]
+
+[tool.uv]
+# Prevent uv from trying to install both CPU and GPU versions at once
+conflicts = [
+  [ { extra = "cpu" }, { extra = "gpu" } ]
+]
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu129", extra = "gpu" },
+]
+torchvision = [
+    { index = "pytorch-cpu", extra = "cpu" },
+    { index = "pytorch-cu129", extra = "gpu" },
+]
+
+# Explicitly define the PyTorch indexes
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[[tool.uv.index]]
+name = "pytorch-cu129"
+url = "https://download.pytorch.org/whl/cu129"
+explicit = true
+
+# specify build system so for to allow src/ modules 
+# to be imported in experiment scripts without path
+# hacking
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/datasets",
+    "src/evaluate",
+    "src/modules",
+    "src/train",
+]
+</file>
+
+</files>

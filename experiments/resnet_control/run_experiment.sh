@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #SBATCH --nodes 1
-#SBATCH -cpus-per-task 4
+#SBATCH --cpus-per-task 4
 #SBATCH --mem=8g
 #SBATCH --job-name "Example GPU Job"
 #SBATCH --partition short

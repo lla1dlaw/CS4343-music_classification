@@ -1,6 +1,6 @@
 import torchvision
 from torch.optim import Adam
-from src.train import train_spotify44k
+from train import train_spotify44k
 
 import os
 from pathlib import Path

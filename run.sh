@@ -3,7 +3,7 @@
 set -e
 
 # set filenames for configs and entrypoints
-DEFAULT_CONFIG_FILENAME="default.env"
+DEFAULT_CONFIG_FILENAME="defaults.env"
 USER_CONFIG_FILENAME="config.env" # values in this file override the defaults
 
 PROJECT_ROOT="$(pwd)"
@@ -27,22 +27,7 @@ function usage() {
     echo "  -a remote-address   Specify the remote address to run these experiments on"
 }
 
-function setup-env() {
-    module load uv 
-    
-    # load configs
-    set -a
-    source "$DEFAULT_CONFIG"
-    set +a
-
-    set -a
-    source "$USER_CONFIG"
-    set +a
-    
-    load modules
-    module load cuda
-    uv sync
-}
+source "$EXPERIMENTS_DIR/hpc_scripts/experiment_setup.sh"
 
 function run_on_hpc() {
     if ! [ -d "$EXPERIMENTS_DIR" ]; then 
@@ -54,8 +39,10 @@ function run_on_hpc() {
     
     # loop over experiment directories and run their slurm scripts
     shopt -s nullglob
-    for dir in $EXPERIMENTS_DIR; do 
-        sbatch "${dir%/}/run_experiment.sh"
+    for dir in $EXPERIMENTS_DIR/*; do 
+        if [ -d "$dir" ] && [ -f "$dir/run_experiment.sh" ]; then
+            (cd "$dir" && mkdir -p logs && sbatch run_experiment.sh)
+        fi
     done
 }
 
@@ -92,10 +79,12 @@ function main() {
         esac
     done
 
-    if RUN_LOCAL; then 
+    if [ "$RUN_LOCAL" = true ]; then 
         run_local 
     else 
         run_on_hpc 
     fi
 }
+
+main "$@"
 

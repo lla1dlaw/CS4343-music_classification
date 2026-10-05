@@ -33,7 +33,7 @@ def train_one_epoch(
         inputs, targets = inputs.to(device), targets.to(device) 
         optimizer.zero_grad()
         logits = model(inputs)
-        loss, _= criterion(logits, targets)
+        loss = criterion(logits, targets)
         loss.backward()
         optimizer.step()
         metrics['train'].update(logits, targets)
@@ -41,11 +41,11 @@ def train_one_epoch(
 
     model.eval()
     with torch.no_grad(): 
-        for input, targets in val_loader:
-            input, targets = input.to(device), targets.to(device)
-            logits = model(input)
+        for inputs, targets in val_loader:
+            inputs, targets = inputs.to(device), targets.to(device)
+            logits = model(inputs)
             loss = criterion(logits, targets)
-            metrics['val'].update(logits)
+            metrics['val'].update(logits, targets)
             validation_loss_metric.update(loss.item())
 
 
@@ -66,6 +66,7 @@ def fit_model(
         epochs: int,
         log_dir: Path,
     ) -> pl.DataFrame:
+
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_training_data.csv"
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -123,7 +124,7 @@ def test_model(
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_testing_data.csv"
 
-    device = "gpu" if torch.cuda.is_available() else "cpu"
+    device = "cuda" if torch.cuda.is_available() else "cpu"
     model.eval()  
     criterion = nn.CrossEntropyLoss()
     test_loss_metric = MeanMetric().to(device)
@@ -132,9 +133,9 @@ def test_model(
     with torch.no_grad(): 
         for inputs, targets in test_loader:
             inputs, targets = inputs.to(device), targets.to(device)
-            logits = model(input)
-            loss, _= criterion(logits, targets)
-            metrics['test'].update(logits)
+            logits = model(inputs)
+            loss = criterion(logits, targets)
+            metrics['test'].update(logits, targets)
             test_loss_metric.update(loss.item())
 
     test_loss = test_loss_metric.compute().item()
@@ -149,7 +150,7 @@ def test_model(
 
     
     # return metrics to the caller
-    df_history = pl.DataFrame(test_data)
+    df_history = pl.DataFrame([test_data])
     df_history.write_csv(LOG_DIR)
 
     return df_history
