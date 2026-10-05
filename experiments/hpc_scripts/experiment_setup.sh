@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 function setup-env() {
     # If variables aren't set by run.sh, set them relative to this script
     if [ -z "$PROJECT_ROOT" ]; then
