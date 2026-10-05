@@ -2,8 +2,8 @@
 #SBATCH --nodes 1
 #SBATCH --cpus-per-task 4
 #SBATCH --mem=8g
-#SBATCH --job-name "Example GPU Job"
-#SBATCH --partition short
+#SBATCH --job-name "AlexNet Music Classification"
+#SBATCH --partition academic
 #SBATCH --time 0-2:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --constraint="A30"
