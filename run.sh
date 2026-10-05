@@ -35,13 +35,25 @@ function run_on_hpc() {
         exit 1
     fi
 
-    setup-env
-    
     # loop over experiment directories and run their slurm scripts
     shopt -s nullglob
-    for dir in $EXPERIMENTS_DIR/*; do 
+    local dirs=()
+    if [ ${#TARGET_EXPERIMENTS[@]} -gt 0 ]; then
+        for exp in "${TARGET_EXPERIMENTS[@]}"; do
+            dirs+=("$EXPERIMENTS_DIR/$exp")
+        done
+    else
+        dirs=("$EXPERIMENTS_DIR"/*)
+    fi
+
+    for dir in "${dirs[@]}"; do 
         if [ -d "$dir" ] && [ -f "$dir/run_experiment.sh" ]; then
+            echo "Submitting experiment: $(basename "$dir")"
             (cd "$dir" && mkdir -p logs && sbatch run_experiment.sh)
+        else
+            if [ ${#TARGET_EXPERIMENTS[@]} -gt 0 ]; then
+                echo "Warning: Experiment directory '$dir' or run_experiment.sh not found."
+            fi
         fi
     done
 }
@@ -52,7 +64,7 @@ function run_local() {
         exit 1
     fi
 
-    setup-env
+    # setup env logic is now sourced directly
 }
 
 function main() {
@@ -78,6 +90,9 @@ function main() {
                 ;;
         esac
     done
+
+    shift $((OPTIND-1))
+    TARGET_EXPERIMENTS=("$@")
 
     if [ "$RUN_LOCAL" = true ]; then 
         run_local 
