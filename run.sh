@@ -2,19 +2,12 @@
 
 set -e
 
-# set filenames for configs and entrypoints
-DEFAULT_CONFIG_FILENAME="defaults.env"
-USER_CONFIG_FILENAME="config.env" # values in this file override the defaults
-
 PROJECT_ROOT="$(pwd)"
 CONFIG_DIR="$PROJECT_ROOT/config"
 SCRIPTS_DIR="$PROJECT_ROOT/scripts"
 EXPERIMENTS_DIR="$PROJECT_ROOT/experiments"
 
 SRC_DIR="$PROJECT_ROOT/src"
-
-DEFAULT_CONFIG="$CONFIG_DIR/$DEFAULT_CONFIG_FILENAME"
-USER_CONFIG="$CONFIG_DIR/$USER_CONFIG_FILENAME"
 
 export PROJECT_ROOT
 export CONFIG_DIR
@@ -29,15 +22,19 @@ function usage() {
     echo "  -s                  Sync local changes to remote using rsync before remote execution (requires -a)"
 }
 
-source "$EXPERIMENTS_DIR/hpc_scripts/experiment_setup.sh"
-
 function run_remote() {
     local remote_host="${HPC_HOSTNAME:-turing.wpi.edu}"
     local remote_user="${HPC_USERNAME:-$USER}"
     local remote_dir="${REMOTE_PROJECT_DIR}"
+    local remote_key="${HPC_SSH_KEY}"
 
     if [ -z "$remote_dir" ]; then
         echo "Error: REMOTE_PROJECT_DIR is not set in config/defaults.env or config/config.env"
+        exit 1
+    fi
+
+    if [ -z "$remote_key" ]; then
+        echo "Error: HPC_SSH_KEY is not set in config/defaults.env or config/config.env"
         exit 1
     fi
 
@@ -48,7 +45,7 @@ function run_remote() {
 
     echo "Running remotely on $remote_user@$remote_host in $remote_dir"
     local run_cmd="cd $remote_dir && ./run.sh ${TARGET_EXPERIMENTS[*]}"
-    ssh "$remote_user@$remote_host" "$run_cmd"
+    ssh -i "$remote_key" "$remote_user@$remote_host" "$run_cmd"
 }
 
 function run_on_hpc() {
