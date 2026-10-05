@@ -42,7 +42,7 @@ def train_one_epoch(
     model.eval()
     with torch.no_grad(): 
         for input, targets in val_loader:
-            input, targets = inputs.to(device), targets.to(device)
+            input, targets = input.to(device), targets.to(device)
             logits = model(input)
             loss = criterion(logits, targets)
             metrics['val'].update(logits)
@@ -161,6 +161,9 @@ def run_train_test(
         log_dir: str,
     ) -> tuple[pl.DataFrame, pl.DataFrame]:
 
+    log_path = Path(log_dir)
+    log_path.mkdir(exist_ok=True)
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
 
@@ -191,14 +194,14 @@ def run_train_test(
         val_loader,
         metrics,
         train_epochs,
-        Path(log_dir),
+        log_path,
     )
 
     test_results = test_model(
         model,
         test_loader,
         metrics,
-        Path(log_dir)
+        log_path,
     )
 
     return train_results, test_results
