@@ -22,12 +22,34 @@ export SCRIPTS_DIR
 export SRC_DIR
 
 function usage() {
-    echo "Usage: $0 [-h] [-a remote-address]"
+    echo "Usage: $0 [-h] [-l] [-a remote-address] [-s] [experiment1 ...]"
     echo "  -h                  Display this message"
-    echo "  -a remote-address   Specify the remote address to run these experiments on"
+    echo "  -l                  Run locally instead of on HPC"
+    echo "  -a remote-address   Specify the remote address to run these experiments on (triggers remote execution via SSH)"
+    echo "  -s                  Sync local changes to remote using rsync before remote execution (requires -a)"
 }
 
 source "$EXPERIMENTS_DIR/hpc_scripts/experiment_setup.sh"
+
+function run_remote() {
+    local remote_host="${HPC_HOSTNAME:-turing.wpi.edu}"
+    local remote_user="${HPC_USERNAME:-$USER}"
+    local remote_dir="${REMOTE_PROJECT_DIR}"
+
+    if [ -z "$remote_dir" ]; then
+        echo "Error: REMOTE_PROJECT_DIR is not set in config/defaults.env or config/config.env"
+        exit 1
+    fi
+
+    if [ "$SYNC_REMOTE" = true ]; then
+        echo "Syncing local changes to $remote_user@$remote_host:$remote_dir..."
+        rsync -avz --exclude '.git' --exclude '.venv' --exclude '__pycache__' --exclude 'data' ./ "$remote_user@$remote_host:$remote_dir/"
+    fi
+
+    echo "Running remotely on $remote_user@$remote_host in $remote_dir"
+    local run_cmd="cd $remote_dir && ./run.sh ${TARGET_EXPERIMENTS[*]}"
+    ssh "$remote_user@$remote_host" "$run_cmd"
+}
 
 function run_on_hpc() {
     if ! [ -d "$EXPERIMENTS_DIR" ]; then 
@@ -66,25 +88,41 @@ function run_local() {
 }
 
 function main() {
-    while getopts ":hla:" opt; do 
+    # Load configs immediately to make sure variables like REMOTE_PROJECT_DIR are available
+    if [ -f "$CONFIG_DIR/defaults.env" ]; then
+        set -a; source "$CONFIG_DIR/defaults.env"; set +a
+    fi
+    if [ -f "$CONFIG_DIR/config.env" ]; then
+        set -a; source "$CONFIG_DIR/config.env"; set +a
+    fi
+
+    RUN_REMOTE=false
+    SYNC_REMOTE=false
+    while getopts ":hla:s" opt; do 
         case "${opt}" in 
             h)
                 usage
+                exit 0
                 ;;
             a)
                 HPC_HOSTNAME="${OPTARG}"
+                RUN_REMOTE=true
                 ;;
-
             l)  
                 RUN_LOCAL=true
+                ;;
+            s)
+                SYNC_REMOTE=true
                 ;;
             \?)
                 echo "Error: Invalid option -${OPTARG}" >&2
                 usage
+                exit 1
                 ;;
             :)
                 echo "Error: Option -${OPTARG} requires an argument." >&2
                 usage
+                exit 1
                 ;;
         esac
     done
@@ -92,7 +130,9 @@ function main() {
     shift $((OPTIND-1))
     TARGET_EXPERIMENTS=("$@")
 
-    if [ "$RUN_LOCAL" = true ]; then 
+    if [ "$RUN_REMOTE" = true ]; then
+        run_remote
+    elif [ "$RUN_LOCAL" = true ]; then 
         run_local 
     else 
         run_on_hpc 
