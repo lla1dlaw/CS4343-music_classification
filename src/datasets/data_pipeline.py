@@ -13,7 +13,7 @@ import kagglehub
 
 
 # use this function in the training loop function
-def make_loaders(shuffle: bool = True) -> tuple[DL, DL, DL]:
+def make_Spotify44k_loaders(shuffle: bool = True) -> tuple[DL, DL, DL]:
     _download_spotify44k() # will only download if it needs to
 
     return (

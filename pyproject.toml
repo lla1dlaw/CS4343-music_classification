@@ -6,6 +6,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "kagglehub>=1.0.2",
+    "polars>=1.44.2",
+    "tensorboard>=2.21.0",
     "torchmetrics>=1.9.0",
     "torchvision>=0.28.0",
 ]
