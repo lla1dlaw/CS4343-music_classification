@@ -27,14 +27,15 @@ def _download_spotify44k():
     project_root = Path(os.getenv("PROJECT_ROOT", default=os.getcwd()))
     handle = "mrodriguez2/spotify-3-second-mel-spectrograms"
     name = "spotify44k"
-    root = "data"
+    root = "data/spotify44k"
     
     dataset_root_path = Path(project_root, root)
     dataset_path = dataset_root_path / name
     
     try: 
         # requires KAGGLE_API_KEY variable to be set in the runtime env
-        kagglehub.dataset_download(handle=handle, path=name, output_dir=root)    
+        #kagglehub.dataset_download(handle=handle, path=name, output_dir=root)    
+        kagglehub.dataset_download(handle=handle, output_dir=root)    
     except FileExistsError: # dataset already exists!
         print(f"Using existing dataset found at {dataset_path}")
 
@@ -44,7 +45,7 @@ def _make_loader(split: str, shuffle: bool = True) -> DL:
         tf.Resize((224, 224)),
         tf.PILToTensor()
     ])
-    dataset = ds.ImageFolder(root=f"data/spotify44k/{split}", transform=transform)
+    dataset = ds.ImageFolder(root=f"data/spotify44k/dataset/{split}", transform=transform)
     return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4)
 
 
