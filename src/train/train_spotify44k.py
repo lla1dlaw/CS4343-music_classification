@@ -16,7 +16,7 @@ from torchmetrics.classification import (
 from datasets.data_pipeline import make_Spotify44k_loaders
 
 
-def train_one_epoch( 
+def _train_one_epoch( 
         model: nn.Module,
         train_loader: DataLoader,
         val_loader: DataLoader,
@@ -49,7 +49,7 @@ def train_one_epoch(
             validation_loss_metric.update(loss.item())
 
 
-def format_big_number(num):
+def _format_big_number(num):
     for unit in ['', 'K', 'M', 'B', 'T']:
         if abs(num) < 1000:
             # Format to 1 decimal place if it's a decimal, otherwise keep it clean
@@ -57,7 +57,7 @@ def format_big_number(num):
         num /= 1000.0
     return f"{num:.1f}Q"
 
-def fit_model(
+def _fit_model(
         model: nn.Module,
         optimizer: optim.Optimizer,
         train_loader: DataLoader,
@@ -68,7 +68,7 @@ def fit_model(
     ) -> pl.DataFrame:
 
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_training_data.csv"
+    LOG_DIR = log_dir / f"{model.__class__.__name__}{_format_big_number(num_params)}_training_data.csv"
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     criterion = nn.CrossEntropyLoss()
     train_loss_metric = MeanMetric().to(device)
@@ -76,7 +76,7 @@ def fit_model(
     history = []
 
     for epoch in range(epochs):
-        train_one_epoch(
+        _train_one_epoch(
             model,
             train_loader,
             val_loader,
@@ -115,14 +115,14 @@ def fit_model(
 
     return df_history
 
-def test_model(
+def _test_model(
         model: nn.Module,
         test_loader: DataLoader,
         metrics: dict[str, MetricCollection],
         log_dir: Path,
     ) -> pl.DataFrame:
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    LOG_DIR = log_dir / f"{model.__class__.__name__}{format_big_number(num_params)}_testing_data.csv"
+    LOG_DIR = log_dir / f"{model.__class__.__name__}{_format_big_number(num_params)}_testing_data.csv"
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
     model.eval()  
@@ -160,6 +160,7 @@ def run_train_test(
         optimizer: optim.Optimizer,
         train_epochs: int,
         log_dir: str,
+        dummy_dataloader: DataLoader | None = None,
     ) -> tuple[pl.DataFrame, pl.DataFrame]:
 
     log_path = Path(log_dir)
@@ -167,16 +168,20 @@ def run_train_test(
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
+    
+    if dummy_dataloader is None:
+        train_loader, val_loader, test_loader = make_Spotify44k_loaders(shuffle=True)
+    else:
+        train_loader, val_loader, test_loader = dummy_dataloader, dummy_dataloader, dummy_dataloader
 
-    train_loader, val_loader, test_loader = make_Spotify44k_loaders(shuffle=True)
     num_classes = len(train_loader.dataset.classes)
 
     base_metrics = MetricCollection({
-        "accuracy":         MulticlassAccuracy(num_classes=num_classes, average="micro"),
-        "top3_acc":         MulticlassAccuracy(num_classes=num_classes, topk=3, average="micro"),
-        "precision":        MulticlassPrecision(num_classes=num_classes, average="macro"),
-        "recall":           MulticlassRecall(num_classes=num_classes, average="macro"),
-        "f1":               MulticlassF1Score(num_classes=num_classes, average="macro"),
+        "accuracy":  MulticlassAccuracy(num_classes=num_classes, average="micro"),
+        "top3_acc":  MulticlassAccuracy(num_classes=num_classes, top_k=3, average="micro"),
+        "precision": MulticlassPrecision(num_classes=num_classes, average="macro"),
+        "recall":    MulticlassRecall(num_classes=num_classes, average="macro"),
+        "f1":        MulticlassF1Score(num_classes=num_classes, average="macro"),
     })
     
     metrics = {
@@ -185,10 +190,7 @@ def run_train_test(
         "test":  base_metrics.clone("test_").to(device),
     }
 
-    optimizer = optim.Adam(model.parameters(), lr=1e-3)
-    
-
-    train_results = fit_model(
+    train_results = _fit_model(
         model, 
         optimizer,
         train_loader,
@@ -198,7 +200,7 @@ def run_train_test(
         log_path,
     )
 
-    test_results = test_model(
+    test_results = _test_model(
         model,
         test_loader,
         metrics,
