@@ -1,6 +1,9 @@
+import torch
 import torchvision
 from torch.optim import Adam
+
 from train import train_spotify44k
+
 
 import os
 from pathlib import Path
@@ -28,7 +31,11 @@ def main():
     )
 
     print(f"{model_name} training and testing completed.")
-    
+    folder_path = "models"
+    file_name = f"{model_name}_spotify44k.pt"
+    save_path = os.path.join(folder_path, file_name)    
+    torch.save(model.state_dict(), save_path) 
+
 
 if __name__ == "__main__":
      main()
