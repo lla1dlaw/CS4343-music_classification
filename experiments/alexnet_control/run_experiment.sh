@@ -6,7 +6,7 @@
 #SBATCH --partition academic
 #SBATCH --time 0-2:00:00
 #SBATCH --gres=gpu:1
-#SBATCH --constraint="A30"
+#SBATCH --constraint="H200|H100"
 #SBATCH --output logs/%j.out
 
 # source and setup the runtime
