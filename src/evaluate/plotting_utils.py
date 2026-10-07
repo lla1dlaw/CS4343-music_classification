@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sb
 import numpy as np
 from pathlib import Path
+import polars as pl
 from sklearn.metrics import roc_curve, auc
 from sklearn.preprocessing import label_binarize
 
@@ -10,7 +11,7 @@ from sklearn.preprocessing import label_binarize
 
 sb.set_theme(style="darkgrid")
 
-ROOT = Path(__file__).resolve().parents[1]   # adjust so this is the folder containing src/
+ROOT = Path(__file__).resolve().parents[2]   # adjust so this is the folder containing src/
 output_folder = ROOT / "graphs"
 output_folder.mkdir(parents=True, exist_ok=True)
 
@@ -58,8 +59,10 @@ def plot_metric_graphs(epoch, train_loss, val_loss, filename="metrics.png"):
         plt.close(fig)
 
 
-def compare_metrics(metric_dict, filename="metrics_comparison.png"):
-    for metric_name in metric_dict:
+def compare_metrics(metric_dict: pl.DataFrame, filename="metrics_comparison.png"):
+    for metric_name in metric_dict.columns:
+        if metric_name == "epoch":
+            continue
         values = metric_dict[metric_name]
         epochs = range(1, len(values) + 1)
         fig, ax = plt.subplots(figsize=(8, 8))
