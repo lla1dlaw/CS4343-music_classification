@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
+
 #SBATCH --nodes 1
 #SBATCH --cpus-per-task 4
 #SBATCH --mem=8g
-#SBATCH --job-name "AlexNet Music Classification"
-#SBATCH --partition academic
+#SBATCH --job-name "Alexnet Control"
+#SBATCH --partition short
 #SBATCH --time 0-2:00:00
 #SBATCH --gres=gpu:1
 #SBATCH --constraint="H200|H100"

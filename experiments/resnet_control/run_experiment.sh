@@ -3,7 +3,7 @@
 #SBATCH --nodes 1
 #SBATCH --cpus-per-task 4
 #SBATCH --mem=8g
-#SBATCH --job-name "Example GPU Job"
+#SBATCH --job-name "Resnet Control"
 #SBATCH --partition short
 #SBATCH --time 0-2:00:00
 #SBATCH --gres=gpu:1
