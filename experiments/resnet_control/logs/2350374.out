@@ -1,0 +1,139 @@
+Loading cuda/12.9.0/b3yzg3f
+  Loading requirement: glibc/2.31/nm2n32h gcc-runtime/12.1.0/usjy2ic
+    xz/5.6.3/s23r47p zlib-ng/2.1.5/lovduqa libiconv/1.18/656ulrj
+    libxml2/2.13.5/iwuov3b
+Resolved 90 packages in 0.85ms
+Downloading nvidia-nvshmem-cu13 (57.6MiB)
+Downloading sympy (6.0MiB)
+Downloading fonttools (5.1MiB)
+Downloading cuda-bindings (6.8MiB)
+Downloading nvidia-nccl-cu13 (206.0MiB)
+Downloading nvidia-curand (56.8MiB)
+Downloading nvidia-nvjitlink (40.5MiB)
+Downloading numpy (15.9MiB)
+Downloading pillow (6.6MiB)
+Downloading tensorboard-data-server (6.3MiB)
+Downloading nvidia-cuda-runtime (2.1MiB)
+Downloading nvidia-cusolver (191.6MiB)
+Downloading triton (236.5MiB)
+Downloading nvidia-cusparselt-cu13 (162.3MiB)
+Downloading tensorboard (5.3MiB)
+Downloading matplotlib (9.4MiB)
+Downloading networkx (2.0MiB)
+Downloading nvidia-cufile (1.2MiB)
+Downloading nvidia-cuda-nvrtc (86.0MiB)
+Downloading grpcio (6.8MiB)
+Downloading kiwisolver (1.4MiB)
+Downloading polars-runtime-32 (52.0MiB)
+Downloading nvidia-cudnn-cu13 (527.5MiB)
+Downloading nvidia-cufft (204.2MiB)
+Downloading nvidia-cublas (403.5MiB)
+Downloading nvidia-cusparse (139.2MiB)
+Downloading torch (528.9MiB)
+Downloading pandas (10.3MiB)
+Downloading nvidia-cuda-cupti (10.2MiB)
+Downloading torchvision (7.1MiB)
+ Downloading nvidia-cufile
+ Downloading kiwisolver
+ Downloading nvidia-cuda-runtime
+ Downloading networkx
+ Downloading fonttools
+ Downloading tensorboard
+ Downloading tensorboard-data-server
+ Downloading pillow
+ Downloading cuda-bindings
+ Downloading grpcio
+ Downloading torchvision
+ Downloading nvidia-cuda-cupti
+ Downloading matplotlib
+ Downloading sympy
+ Downloading numpy
+ Downloading pandas
+ Downloading nvidia-nvjitlink
+ Downloading polars-runtime-32
+ Downloading nvidia-curand
+ Downloading nvidia-nvshmem-cu13
+ Downloading nvidia-cuda-nvrtc
+ Downloading nvidia-cusparse
+ Downloading nvidia-cusparselt-cu13
+ Downloading nvidia-cusolver
+ Downloading nvidia-cufft
+ Downloading nvidia-nccl-cu13
+ Downloading triton
+ Downloading nvidia-cublas
+ Downloading nvidia-cudnn-cu13
+ Downloading torch
+Prepared 64 packages in 1m 08s
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 64 packages in 14.53s
+ + absl-py==2.5.0
+ + certifi==2026.7.22
+ + charset-normalizer==3.5.2
+ + contourpy==1.4.0
+ + cuda-bindings==13.4.3
+ + cuda-pathfinder==1.8.3
+ + cuda-toolkit==13.0.3.0
+ + cycler==0.12.1
+ + filelock==4.0.12
+ + final-project==0.1.0 (from file:///home/lalaidlaw/ondemand/music_classification)
+ + fonttools==4.66.1
+ + fsspec==2026.9.0
+ + grpcio==1.84.0
+ + idna==3.20
+ + jinja2==3.1.6
+ + kagglehub==1.0.2
+ + kagglesdk==0.1.37
+ + kiwisolver==1.5.1
+ + lightning-utilities==0.15.3
+ + markdown==3.11
+ + markupsafe==3.0.4
+ + matplotlib==3.11.2
+ + mpmath==1.3.0
+ + networkx==3.7
+ + numpy==2.5.3
+ + nvidia-cublas==13.1.1.3
+ + nvidia-cuda-cupti==13.0.85
+ + nvidia-cuda-nvrtc==13.0.88
+ + nvidia-cuda-runtime==13.0.96
+ + nvidia-cudnn-cu13==9.24.0.43
+ + nvidia-cufft==12.0.0.61
+ + nvidia-cufile==1.15.1.6
+ + nvidia-curand==10.4.0.35
+ + nvidia-cusolver==12.0.4.66
+ + nvidia-cusparse==12.6.3.3
+ + nvidia-cusparselt-cu13==0.8.1
+ + nvidia-nccl-cu13==2.30.7
+ + nvidia-nvjitlink==13.4.92
+ + nvidia-nvshmem-cu13==3.4.5
+ + nvidia-nvtx==13.0.85
+ + packaging==26.3
+ + pandas==3.0.6
+ + pillow==12.3.0
+ + polars==2.0.0
+ + polars-runtime-32==2.0.0
+ + protobuf==7.36.2
+ + pyparsing==3.3.3
+ + python-dateutil==2.9.0.post0
+ + pyyaml==6.0.3
+ + requests==2.34.2
+ + seaborn==0.13.2
+ + setuptools==84.0.0
+ + six==1.17.0
+ + sympy==1.14.0
+ + tensorboard==2.21.0
+ + tensorboard-data-server==0.7.2
+ + torch==2.14.1
+ + torchmetrics==1.9.0
+ + torchvision==0.29.1
+ + tqdm==4.70.1
+ + triton==3.8.0
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+ + werkzeug==3.1.9
+Uninstalled 1 package in 122ms
+warning: Failed to hardlink files; falling back to full copy. This may lead to degraded performance.
+         If the cache and target directories are on different filesystems, hardlinking may not be supported.
+         If this is intentional, set `export UV_LINK_MODE=copy` or use `--link-mode=copy` to suppress this warning.
+Installed 1 package in 10ms
