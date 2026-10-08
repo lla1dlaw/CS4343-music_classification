@@ -1,0 +1,55 @@
+Loading cuda/12.9.0/b3yzg3f
+  Loading requirement: glibc/2.31/nm2n32h gcc-runtime/12.1.0/usjy2ic
+    xz/5.6.3/s23r47p zlib-ng/2.1.5/lovduqa libiconv/1.18/656ulrj
+    libxml2/2.13.5/iwuov3b
+Resolved 101 packages in 1ms
+Audited 76 packages in 1ms
+Starting training and testing loops for model: MicroAudioCNN
+Downloading to data/spotify44k/1.archive...
+  0%|          | 0.00/1.79G [00:00<?, ?B/s]  0%|          | 1.00M/1.79G [00:00<06:08, 5.22MB/s]  0%|          | 7.00M/1.79G [00:00<01:09, 27.7MB/s]  1%|          | 11.0M/1.79G [00:00<01:19, 24.0MB/s]  1%|          | 17.0M/1.79G [00:00<01:04, 29.5MB/s]  1%|▏         | 25.0M/1.79G [00:00<00:47, 39.7MB/s]  2%|▏         | 33.0M/1.79G [00:00<00:38, 49.6MB/s]  2%|▏         | 43.0M/1.79G [00:01<00:32, 57.7MB/s]  3%|▎         | 53.0M/1.79G [00:01<00:27, 67.2MB/s]  3%|▎         | 63.0M/1.79G [00:01<00:24, 76.8MB/s]  4%|▍         | 73.0M/1.79G [00:01<00:22, 81.3MB/s]  4%|▍         | 82.0M/1.79G [00:01<00:21, 84.4MB/s]  5%|▌         | 93.0M/1.79G [00:01<00:23, 79.4MB/s]  6%|▌         | 107M/1.79G [00:01<00:20, 88.3MB/s]   7%|▋         | 122M/1.79G [00:01<00:17, 105MB/s]   7%|▋         | 136M/1.79G [00:01<00:15, 115MB/s]  8%|▊         | 149M/1.79G [00:02<00:14, 118MB/s]  9%|▉         | 161M/1.79G [00:02<00:22, 79.0MB/s] 10%|▉         | 177M/1.79G [00:02<00:18, 94.4MB/s] 10%|█         | 191M/1.79G [00:02<00:16, 105MB/s]  11%|█         | 205M/1.79G [00:02<00:14, 115MB/s] 12%|█▏        | 218M/1.79G [00:02<00:16, 104MB/s] 13%|█▎        | 232M/1.79G [00:02<00:14, 114MB/s] 13%|█▎        | 244M/1.79G [00:03<00:15, 109MB/s] 14%|█▍        | 257M/1.79G [00:03<00:14, 115MB/s] 15%|█▍        | 271M/1.79G [00:03<00:13, 123MB/s] 16%|█▌        | 285M/1.79G [00:03<00:12, 127MB/s] 16%|█▌        | 298M/1.79G [00:03<00:13, 121MB/s] 17%|█▋        | 310M/1.79G [00:03<00:14, 112MB/s] 18%|█▊        | 323M/1.79G [00:03<00:13, 118MB/s] 18%|█▊        | 337M/1.79G [00:03<00:12, 122MB/s] 19%|█▉        | 351M/1.79G [00:03<00:12, 129MB/s] 20%|█▉        | 364M/1.79G [00:04<00:14, 106MB/s] 21%|██        | 377M/1.79G [00:04<00:13, 110MB/s] 21%|██▏       | 391M/1.79G [00:04<00:12, 118MB/s] 22%|██▏       | 403M/1.79G [00:04<00:15, 94.6MB/s] 23%|██▎       | 419M/1.79G [00:04<00:18, 78.7MB/s] 24%|██▎       | 433M/1.79G [00:04<00:16, 91.0MB/s] 24%|██▍       | 447M/1.79G [00:05<00:14, 103MB/s]  25%|██▌       | 461M/1.79G [00:05<00:13, 110MB/s] 26%|██▌       | 473M/1.79G [00:05<00:13, 102MB/s] 26%|██▋       | 484M/1.79G [00:05<00:14, 96.8MB/s] 27%|██▋       | 501M/1.79G [00:05<00:12, 112MB/s]  28%|██▊       | 513M/1.79G [00:05<00:14, 96.1MB/s] 29%|██▉       | 528M/1.79G [00:05<00:12, 109MB/s]  29%|██▉       | 541M/1.79G [00:05<00:12, 113MB/s] 30%|███       | 553M/1.79G [00:06<00:17, 78.1MB/s] 31%|███       | 567M/1.79G [00:06<00:14, 90.9MB/s] 32%|███▏      | 581M/1.79G [00:06<00:13, 99.9MB/s] 32%|███▏      | 593M/1.79G [00:06<00:13, 98.1MB/s] 33%|███▎      | 609M/1.79G [00:06<00:11, 113MB/s]  34%|███▍      | 621M/1.79G [00:06<00:11, 106MB/s] 34%|███▍      | 633M/1.79G [00:06<00:11, 108MB/s] 35%|███▌      | 644M/1.79G [00:07<00:11, 108MB/s] 36%|███▌      | 658M/1.79G [00:07<00:10, 117MB/s] 37%|███▋      | 673M/1.79G [00:07<00:09, 125MB/s] 37%|███▋      | 686M/1.79G [00:07<00:11, 103MB/s] 38%|███▊      | 701M/1.79G [00:07<00:10, 113MB/s] 39%|███▉      | 717M/1.79G [00:07<00:09, 122MB/s] 40%|███▉      | 733M/1.79G [00:07<00:08, 129MB/s] 41%|████      | 746M/1.79G [00:08<00:13, 87.3MB/s] 41%|████▏     | 761M/1.79G [00:08<00:11, 101MB/s]  42%|████▏     | 777M/1.79G [00:08<00:09, 113MB/s] 43%|████▎     | 793M/1.79G [00:08<00:09, 121MB/s] 44%|████▍     | 809M/1.79G [00:08<00:08, 128MB/s] 45%|████▍     | 825M/1.79G [00:08<00:07, 134MB/s] 46%|████▌     | 839M/1.79G [00:08<00:10, 95.1MB/s] 47%|████▋     | 854M/1.79G [00:09<00:09, 108MB/s]  47%|████▋     | 869M/1.79G [00:09<00:08, 115MB/s] 48%|████▊     | 884M/1.79G [00:09<00:07, 125MB/s] 49%|████▉     | 898M/1.79G [00:09<00:07, 128MB/s] 50%|████▉     | 913M/1.79G [00:09<00:07, 131MB/s] 51%|█████     | 929M/1.79G [00:09<00:06, 136MB/s] 51%|█████▏    | 945M/1.79G [00:09<00:06, 138MB/s] 52%|█████▏    | 961M/1.79G [00:09<00:06, 140MB/s] 53%|█████▎    | 977M/1.79G [00:09<00:06, 141MB/s] 54%|█████▍    | 991M/1.79G [00:10<00:06, 128MB/s] 55%|█████▍    | 0.98G/1.79G [00:10<00:06, 131MB/s] 56%|█████▌    | 1.00G/1.79G [00:10<00:06, 136MB/s] 56%|█████▋    | 1.01G/1.79G [00:10<00:05, 141MB/s] 57%|█████▋    | 1.03G/1.79G [00:10<00:05, 140MB/s] 58%|█████▊    | 1.04G/1.79G [00:10<00:05, 140MB/s] 59%|█████▉    | 1.05G/1.79G [00:10<00:05, 141MB/s] 60%|█████▉    | 1.07G/1.79G [00:10<00:05, 140MB/s] 60%|██████    | 1.08G/1.79G [00:10<00:05, 141MB/s] 61%|██████    | 1.10G/1.79G [00:11<00:10, 73.3MB/s] 62%|██████▏   | 1.11G/1.79G [00:11<00:08, 83.7MB/s] 63%|██████▎   | 1.12G/1.79G [00:11<00:12, 58.1MB/s] 64%|██████▎   | 1.14G/1.79G [00:12<00:09, 71.9MB/s] 64%|██████▍   | 1.15G/1.79G [00:12<00:08, 84.7MB/s] 65%|██████▌   | 1.17G/1.79G [00:12<00:07, 95.4MB/s] 66%|██████▌   | 1.18G/1.79G [00:12<00:06, 103MB/s]  67%|██████▋   | 1.20G/1.79G [00:12<00:05, 113MB/s] 67%|██████▋   | 1.21G/1.79G [00:12<00:06, 102MB/s] 68%|██████▊   | 1.22G/1.79G [00:12<00:05, 106MB/s] 69%|██████▉   | 1.23G/1.79G [00:12<00:05, 109MB/s] 70%|██████▉   | 1.25G/1.79G [00:13<00:05, 116MB/s] 70%|███████   | 1.26G/1.79G [00:13<00:04, 123MB/s] 71%|███████   | 1.28G/1.79G [00:13<00:04, 129MB/s] 72%|███████▏  | 1.29G/1.79G [00:13<00:04, 130MB/s] 73%|███████▎  | 1.30G/1.79G [00:13<00:03, 134MB/s] 74%|███████▎  | 1.32G/1.79G [00:13<00:03, 134MB/s] 74%|███████▍  | 1.33G/1.79G [00:13<00:03, 137MB/s] 75%|███████▌  | 1.35G/1.79G [00:13<00:03, 142MB/s] 76%|███████▌  | 1.36G/1.79G [00:13<00:03, 117MB/s] 77%|███████▋  | 1.37G/1.79G [00:14<00:03, 114MB/s] 77%|███████▋  | 1.38G/1.79G [00:14<00:03, 112MB/s] 78%|███████▊  | 1.40G/1.79G [00:14<00:03, 110MB/s] 79%|███████▊  | 1.41G/1.79G [00:14<00:03, 107MB/s] 79%|███████▉  | 1.42G/1.79G [00:14<00:03, 109MB/s] 80%|███████▉  | 1.43G/1.79G [00:14<00:03, 107MB/s] 80%|████████  | 1.44G/1.79G [00:14<00:04, 78.7MB/s] 81%|████████  | 1.45G/1.79G [00:14<00:04, 80.7MB/s] 81%|████████▏ | 1.46G/1.79G [00:15<00:04, 84.8MB/s] 82%|████████▏ | 1.47G/1.79G [00:15<00:03, 91.2MB/s] 82%|████████▏ | 1.48G/1.79G [00:15<00:04, 74.3MB/s] 83%|████████▎ | 1.49G/1.79G [00:15<00:03, 85.1MB/s] 84%|████████▎ | 1.50G/1.79G [00:15<00:03, 83.3MB/s] 85%|████████▍ | 1.51G/1.79G [00:15<00:02, 101MB/s]  85%|████████▌ | 1.53G/1.79G [00:15<00:02, 111MB/s] 86%|████████▌ | 1.54G/1.79G [00:16<00:02, 90.9MB/s] 87%|████████▋ | 1.56G/1.79G [00:16<00:02, 105MB/s]  88%|████████▊ | 1.57G/1.79G [00:16<00:02, 116MB/s] 89%|████████▊ | 1.59G/1.79G [00:16<00:01, 124MB/s] 89%|████████▉ | 1.60G/1.79G [00:16<00:01, 131MB/s] 90%|█████████ | 1.62G/1.79G [00:16<00:01, 117MB/s] 91%|█████████ | 1.63G/1.79G [00:16<00:01, 122MB/s] 92%|█████████▏| 1.65G/1.79G [00:16<00:01, 128MB/s] 93%|█████████▎| 1.66G/1.79G [00:17<00:01, 119MB/s] 93%|█████████▎| 1.67G/1.79G [00:17<00:01, 125MB/s] 94%|█████████▍| 1.69G/1.79G [00:17<00:00, 131MB/s] 95%|█████████▍| 1.70G/1.79G [00:17<00:00, 104MB/s] 96%|█████████▌| 1.72G/1.79G [00:17<00:00, 114MB/s] 97%|█████████▋| 1.73G/1.79G [00:17<00:00, 124MB/s] 97%|█████████▋| 1.74G/1.79G [00:17<00:00, 126MB/s] 98%|█████████▊| 1.76G/1.79G [00:17<00:00, 132MB/s] 99%|█████████▉| 1.77G/1.79G [00:18<00:00, 107MB/s]100%|█████████▉| 1.79G/1.79G [00:18<00:00, 114MB/s]100%|██████████| 1.79G/1.79G [00:18<00:00, 106MB/s]
+Extracting files...
+Traceback (most recent call last):
+  File "/home/lalaidlaw/ondemand/music_classification/experiments/custom_model/./src/main.py", line 47, in <module>
+    main()
+  File "/home/lalaidlaw/ondemand/music_classification/experiments/custom_model/./src/main.py", line 30, in main
+    train_results, test_results = train_spotify44k.run_train_test(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/src/train/train_spotify44k.py", line 211, in run_train_test
+    train_results = _fit_model(
+                    ^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/src/train/train_spotify44k.py", line 82, in _fit_model
+    _train_one_epoch(
+  File "/home/lalaidlaw/ondemand/music_classification/src/train/train_spotify44k.py", line 37, in _train_one_epoch
+    logits = model(inputs)
+             ^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/src/modules/mobile_net.py", line 60, in forward
+    x = self.features(x)
+        ^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/container.py", line 259, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1783, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1794, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 565, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/lalaidlaw/ondemand/music_classification/.venv/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 560, in _conv_forward
+    return F.conv2d(
+           ^^^^^^^^^
+RuntimeError: Given groups=1, weight of size [16, 1, 3, 3], expected input[32, 3, 224, 224] to have 1 channels, but got 3 channels instead
