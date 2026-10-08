@@ -4,7 +4,6 @@ from torch.optim import Adam
 
 from train import train_spotify44k
 
-
 import os
 from pathlib import Path
 
@@ -32,11 +31,12 @@ def main():
         epochs,
         str(log_dir)
     )
-
+     
     print(f"{model_name} training and testing completed.")
-    folder_path = "models"
+    
+    folder_path = Path(os.getcwd()).parent
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
-    save_path = os.path.join(folder_path, file_name)    
+    save_path =  folder_path / file_name   
     torch.save(model.state_dict(), save_path) 
 
 

@@ -5,11 +5,13 @@ from train import train_spotify44k
 import os
 from pathlib import Path
 
+import time
 
 def main():
     num_classes = 14 # spotify 44k has 14 classes
     model = torchvision.models.alexnet(num_classes=num_classes)
     model_name = model.__class__.__name__
+    model_id = time.time()
     optimizer = Adam(
         model.parameters(),
         lr = 0.004,
@@ -28,9 +30,9 @@ def main():
     )
 
     print(f"{model_name} training and testing completed.")
-    folder_path = "models"
+    folder_path = Path(os.getcwd()).parent
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
-    save_path = os.path.join(folder_path, file_name)    
+    save_path =  folder_path / file_name   
     torch.save(model.state_dict(), save_path) 
 
 if __name__ == "__main__":
