@@ -19,7 +19,7 @@ def main():
         model.parameters(),
         lr = 0.004,
     )
-    epochs = 2
+    epochs = 100
 
     log_dir = Path(os.getcwd()).parent.parent / "results"
     log_dir.mkdir(exist_ok=True)
