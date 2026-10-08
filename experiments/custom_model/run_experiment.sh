@@ -3,7 +3,7 @@
 #SBATCH --nodes 1
 #SBATCH --cpus-per-task 4
 #SBATCH --mem=8g
-#SBATCH --job-name "Resnet Control"
+#SBATCH --job-name "Custom Model"
 #SBATCH --partition short
 #SBATCH --time 0-2:00:00
 #SBATCH --gres=gpu:1
