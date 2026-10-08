@@ -47,6 +47,7 @@ def _train_one_epoch(
             loss = criterion(logits, targets)
             metrics['val'].update(logits, targets)
             validation_loss_metric.update(loss.item())
+    
 
 
 def _format_big_number(num):
@@ -103,6 +104,16 @@ def _fit_model(
 
         history.append(epoch_data)
 
+        print(
+            f"Epoch {epoch+1:03d}/{epochs:03d} | "
+            f"Train Loss: {epoch_data['train_loss']:.4f} | "
+            f"Val Loss: {epoch_data['val_loss']:.4f} | "
+            f"Train Acc: {epoch_data['train_accuracy']:.4f} | "
+            f"Val Acc: {epoch_data['val_accuracy']:.4f} | "
+            f"Train F1: {epoch_data['train_f1']:.4f} | "
+            f"Val F1: {epoch_data['val_f1']:.4f}"
+        )
+
         # reset metrics in preparation for next epoch
         metrics['train'].reset()
         metrics['val'].reset()
@@ -148,6 +159,12 @@ def _test_model(
     for metric_name, value in test_results.items():
         test_data[metric_name] = value.item()
 
+    print(
+        f"Test Results | "
+        f"Loss: {test_data['test_loss']:.4f} | "
+        f"Acc: {test_data['test_accuracy']:.4f} | "
+        f"F1: {test_data['test_f1']:.4f}"
+    )
     
     # return metrics to the caller
     df_history = pl.DataFrame([test_data])
