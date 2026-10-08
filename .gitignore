@@ -18,3 +18,5 @@ wheels/
 # big ah photos
 graphs/
 graphs/*
+
+experiments/*/models
