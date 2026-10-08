@@ -43,7 +43,7 @@ def _make_loader(split: str, shuffle: bool = True) -> DL:
     transform = tf.Compose([
         tf.Grayscale(num_output_channels=3),
         tf.Resize((224, 224)),
-        tf.PILToTensor()
+        tf.ToTensor()
     ])
     dataset = ds.ImageFolder(root=f"data/spotify44k/dataset/{split}", transform=transform)
     return DL(dataset, batch_size=32, shuffle=shuffle, num_workers=4)
