@@ -1,6 +1,7 @@
 import torchvision
 from torch.optim import Adam
 from train import train_spotify44k
+import time
 
 import os
 from pathlib import Path
@@ -10,6 +11,7 @@ def main():
     num_classes = 14 # spotify 44k has 14 classes
     model = torchvision.models.alexnet(num_classes=num_classes)
     model_name = model.__class__.__name__
+    model_id = time.time()
     optimizer = Adam(
         model.parameters(),
         lr = 0.004,
@@ -27,7 +29,7 @@ def main():
         str(log_dir)
     )
 
-    print(f"{model_name} training and testing completed.")
+    print(f"{model_name} git pulltraining and testing completed.")
     folder_path = "models"
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
     save_path = os.path.join(folder_path, file_name)    
