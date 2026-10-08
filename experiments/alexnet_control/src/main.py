@@ -1,3 +1,4 @@
+import torch
 import torchvision
 from torch.optim import Adam
 from train import train_spotify44k
@@ -31,7 +32,8 @@ def main():
     )
 
     print(f"{model_name} training and testing completed.")
-    folder_path = Path(os.getcwd()).parent
+    folder_path = Path(os.getcwd())
+    folder_path.mkdir(exist_ok=True)
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
     save_path =  folder_path / file_name   
     torch.save(model.state_dict(), save_path) 
