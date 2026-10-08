@@ -1,40 +1,25 @@
 import torch
 import torchvision
 from torch.optim import Adam
+
 from train import train_spotify44k
-import time
-import torch
+from modules.mobile_net import MicroAudioCNN
 
 import os
 from pathlib import Path
 
 import time
 
-def init_weights(m):
-    if isinstance(m, torch.nn.Conv2d):
-        torch.nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-        if m.bias is not None:
-            torch.nn.init.constant_(m.bias, 0)
-    elif isinstance(m, torch.nn.Linear):
-        torch.nn.init.normal_(m.weight, 0, 0.01)
-        torch.nn.init.constant_(m.bias, 0)
 
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     num_classes = 14 # spotify 44k has 14 classes
-    model = torchvision.models.alexnet(num_classes=num_classes)
-    
-    # Manually initialize weights!
-    model.apply(init_weights)
-    model = model.to(device)
-    
-    model_name = model.__class__.__name__
+    model = MicroAudioCNN(num_classes=num_classes).to(device)
     model_id = time.time()
-    
-    # Lowered learning rate for training from scratch
+    model_name = model.__class__.__name__
     optimizer = Adam(
         model.parameters(),
-        lr = 0.0001,
+        lr = 0.004,
     )
     epochs = 100
 
@@ -48,13 +33,15 @@ def main():
         epochs,
         str(log_dir)
     )
-
+     
     print(f"{model_name} training and testing completed.")
+    
     folder_path = Path(os.getcwd()) / "models"
     folder_path.mkdir(exist_ok=True)
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
     save_path =  folder_path / file_name   
     torch.save(model.state_dict(), save_path) 
+
 
 if __name__ == "__main__":
      main()
