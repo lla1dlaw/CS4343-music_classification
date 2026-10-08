@@ -11,8 +11,9 @@ import time
 
 
 def main():
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     num_classes = 14 # spotify 44k has 14 classes
-    model = torchvision.models.resnet18(num_classes=num_classes)
+    model = torchvision.models.resnet18(num_classes=num_classes).to(device)
     model_id = time.time()
     model_name = model.__class__.__name__
     optimizer = Adam(
