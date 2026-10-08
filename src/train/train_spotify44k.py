@@ -72,7 +72,7 @@ def _fit_model(
 
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     LOG_DIR = log_dir / f"{model.__class__.__name__}{_format_big_number(num_params)}_training_data.csv"
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    device = next(model.parameters()).device
     criterion = nn.CrossEntropyLoss()
     train_loss_metric = MeanMetric().to(device)
     val_loss_metric = MeanMetric().to(device)
@@ -136,8 +136,8 @@ def _test_model(
     ) -> pl.DataFrame:
     num_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     LOG_DIR = log_dir / f"{model.__class__.__name__}{_format_big_number(num_params)}_testing_data.csv"
-
-    device = "cuda" if torch.cuda.is_available() else "cpu"
+    
+    device = next(model.parameters()).device
     model.eval()  
     criterion = nn.CrossEntropyLoss()
     test_loss_metric = MeanMetric().to(device)
@@ -185,8 +185,7 @@ def run_train_test(
     log_path = Path(log_dir)
     log_path.mkdir(exist_ok=True)
 
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = model.to(device)
+    device = next(model.parameters()).device
     
     if dummy_dataloader is None:
         train_loader, val_loader, test_loader = make_Spotify44k_loaders(shuffle=True)

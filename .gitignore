@@ -14,3 +14,7 @@ wheels/
 
 # big ah datasets
 *data/
+
+# big ah photos
+graphs/
+graphs/*
