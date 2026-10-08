@@ -1,13 +1,13 @@
 
-import matplotlib.pyplot as plt
-import seaborn as sb
-import numpy as np
 from pathlib import Path
+
+import matplotlib.pyplot as plt
 import polars as pl
-from sklearn.metrics import roc_curve, auc
+import seaborn as sb
+from sklearn.metrics import auc, roc_curve
 from sklearn.preprocessing import label_binarize
 
-
+from typing import Iterable
 
 sb.set_theme(style="darkgrid")
 
@@ -59,21 +59,25 @@ def plot_metric_graphs(epoch, train_loss, val_loss, filename="metrics.png"):
         plt.close(fig)
 
 
-def compare_metrics(metric_dict: pl.DataFrame, filename="metrics_comparison.png"):
-    for metric_name in metric_dict.columns:
+def compare_metrics(metric_dfs: dict[str, pl.DataFrame]):
+    if len(metric_dfs) == 0:
+        print("Cannot supply plots for metrics of length 0.")
+        return
+
+    for metric_name in next(iter(metric_dfs.values())).columns:
         if metric_name == "epoch":
             continue
-        values = metric_dict[metric_name]
-        epochs = range(1, len(values) + 1)
+
         fig, ax = plt.subplots(figsize=(8, 8))
 
-        ax.plot(epochs, values, marker="o", label=metric_name)
+        for model_name, metric_df in metric_dfs.items():
+            values = metric_df[metric_name]
+            epochs = range(1, len(values) + 1)
+            ax.plot(epochs, values, marker="o", label=f"{model_name}")
+
         ax.set_xlabel("Epoch")
         ax.set_ylabel(metric_name)
         ax.set_title(f"{metric_name} Comparison")
         ax.legend()
         fig.savefig(output_folder / f"{metric_name}.png", dpi=200, bbox_inches="tight")
         plt.close(fig)
-        
-#########################
-
