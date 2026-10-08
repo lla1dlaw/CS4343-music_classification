@@ -28,6 +28,8 @@ def _train_one_epoch(
         device: torch.device,
     ):
 
+    model.train()
+
 
     for inputs, targets in train_loader:
         inputs, targets = inputs.to(device), targets.to(device) 
@@ -191,7 +193,7 @@ def run_train_test(
     else:
         train_loader, val_loader, test_loader = dummy_dataloader, dummy_dataloader, dummy_dataloader
 
-    num_classes = len(train_loader.dataset.classes)
+    num_classes = 14
 
     base_metrics = MetricCollection({
         "accuracy":  MulticlassAccuracy(num_classes=num_classes, average="micro"),
