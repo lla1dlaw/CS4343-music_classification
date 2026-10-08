@@ -11,7 +11,7 @@ class MicroAudioCNN(nn.Module):
         
         self.features = nn.Sequential(
             # Block 1
-            nn.Conv2d(1, 16, kernel_size=3, padding=1, bias=False),
+            nn.Conv2d(3, 16, kernel_size=3, padding=1, bias=False),
             nn.BatchNorm2d(16),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(2),
