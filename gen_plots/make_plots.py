@@ -47,5 +47,5 @@ print(associated_train_data)
 print("Collected Testing Data")
 print(associated_test_data)
     
-pu.compare_metrics(associated_train_data)
-pu.compare_metrics(associated_test_data)
+pu.compare_metric_histograms(associated_train_data, filename="train_histograms.png")
+pu.compare_metric_histograms(associated_test_data, filename="test_histograms.png")
