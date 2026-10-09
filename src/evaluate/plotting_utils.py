@@ -1,4 +1,4 @@
-
+import re
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -81,15 +81,14 @@ def compare_metrics(metric_dfs: dict[str, pl.DataFrame]):
             model_color = model_colors[model_name]
             
             if "test" in metric_name:
-                bars = ax.bar(model_name, values, color=model_color)
-                ax.bar_label(bars, padding=3)
-                ax.set_xlabel("Model")
+                # re pattern adds a space between the size of the model and its name
+                bars = ax.bar(re.sub(r"(?<=[a-zA-Z])(\d)", r" \1", model_name, count=1), values, color=model_color)
+                ax.bar_label(bars, padding=3, fmt='%.3f')
             else:
                 ax.plot(epochs, values, marker="o", color=model_color, label=f"{model_name}")
                 ax.set_xlabel("Epoch")
-
-        ax.set_ylabel(metric_name)
-        ax.set_title(f"{metric_name} Comparison")
+        ax.set_ylabel(metric_name.title().replace("_", " "))
+        ax.set_title(f"{metric_name.title().replace("_", " ")} Comparison")
         
         handles, labels = ax.get_legend_handles_labels()
         if labels:
