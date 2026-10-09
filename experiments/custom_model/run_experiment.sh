@@ -6,8 +6,7 @@
 #SBATCH --job-name "Custom Model"
 #SBATCH --partition short
 #SBATCH --time 0-2:00:00
-#SBATCH --gres=gpu:1
-#SBATCH --constraint="H200|H100"
+#SBATCH --gpus=L40S:1
 #SBATCH --output logs/%j.out
 
 # source and setup the runtime
