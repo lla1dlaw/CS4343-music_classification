@@ -3,40 +3,21 @@ import torchvision
 from torch.optim import Adam
 from train import train_spotify44k
 import time
-import torch
-
 import os
 from pathlib import Path
 
 import time
 
-def init_weights(m):
-    if isinstance(m, torch.nn.Conv2d):
-        torch.nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
-        if m.bias is not None:
-            torch.nn.init.constant_(m.bias, 0)
-    elif isinstance(m, torch.nn.Linear):
-        torch.nn.init.normal_(m.weight, 0, 0.01)
-        torch.nn.init.constant_(m.bias, 0)
-
 def main():
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     num_classes = 14 # spotify 44k has 14 classes
     model = torchvision.models.alexnet(num_classes=num_classes)
-    
-    # Manually initialize weights!
-    model.apply(init_weights)
-    model = model.to(device)
-    
     model_name = model.__class__.__name__
     model_id = time.time()
-    
-    # Lowered learning rate for training from scratch
     optimizer = Adam(
         model.parameters(),
-        lr = 0.0001,
+        lr = 0.004,
     )
-    epochs = 100
+    epochs = 2
 
     log_dir = Path(os.getcwd()).parent.parent / "results"
     log_dir.mkdir(exist_ok=True)
@@ -50,7 +31,7 @@ def main():
     )
 
     print(f"{model_name} training and testing completed.")
-    folder_path = Path(os.getcwd()) / "models"
+    folder_path = Path(os.getcwd())
     folder_path.mkdir(exist_ok=True)
     file_name = f"{model_name}_{model_id}_spotify44k.pt"
     save_path =  folder_path / file_name   
