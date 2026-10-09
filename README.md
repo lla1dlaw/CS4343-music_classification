@@ -1,23 +1,37 @@
 # Deep Learning Final Project 
 ### Liam Laidlaw, Joeseph Tully, Joshua Bearfield
 
-## Usage
-Submit Slurm Jobs Locally (if you are already SSH'd into the HPC):
+## Dependencies
+### uv:
+Install on Windows:
 
+``` console
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+```
+
+Install on macOS & Linux:
+``` console
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
+## Usage
+Clone this repository on HPC:
+``` console
+git clone https://github.com/lla1dlaw/CS4343-music_classification.git
+cd CS4343-music_classification
+```
+
+Submit all slurm jobs on HPC:
+``` console
+./run.sh 
+```
+
+Run specific experiments in the experiments/ directory:
 ``` console
 ./run.sh alexnet_control resnet_control
 ```
-Trigger Remote Execution (from your personal computer):
-
+Generate plots of the results in the results/ directory with:
 ``` console
-./run.sh -a turing.wpi.edu alexnet_control
+uv run gen_plots/make_plots.py
 ```
-
-Sync Code and Trigger Remote Execution (from your personal computer):
-
-``` console
-./run.sh -a turing.wpi.edu -s alexnet_control
-```
-
-If you don't provide an address with -a, run.sh simply assumes it's already on the correct machine and will immediately
-try to start the experiments via sbatch (or run them locally if -l is provided).
+Plots are saved to the generated graphs/ directory.
