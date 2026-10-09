@@ -64,6 +64,11 @@ def compare_metrics(metric_dfs: dict[str, pl.DataFrame]):
         print("Cannot supply plots for metrics of length 0.")
         return
 
+    # Extract the default seaborn/matplotlib color cycle
+    color_cycle = plt.rcParams['axes.prop_cycle'].by_key()['color']
+    # Map each model to a color based on its order to match previous default behavior
+    model_colors = {model: color_cycle[i % len(color_cycle)] for i, model in enumerate(metric_dfs.keys())}
+
     for metric_name in next(iter(metric_dfs.values())).columns:
         if metric_name == "epoch":
             continue
@@ -73,11 +78,22 @@ def compare_metrics(metric_dfs: dict[str, pl.DataFrame]):
         for model_name, metric_df in metric_dfs.items():
             values = metric_df[metric_name]
             epochs = range(1, len(values) + 1)
-            ax.plot(epochs, values, marker="o", label=f"{model_name}")
+            model_color = model_colors[model_name]
+            
+            if "test" in metric_name:
+                bars = ax.bar(model_name, values, color=model_color)
+                ax.bar_label(bars, padding=3)
+                ax.set_xlabel("Model")
+            else:
+                ax.plot(epochs, values, marker="o", color=model_color, label=f"{model_name}")
+                ax.set_xlabel("Epoch")
 
-        ax.set_xlabel("Epoch")
         ax.set_ylabel(metric_name)
         ax.set_title(f"{metric_name} Comparison")
-        ax.legend()
+        
+        handles, labels = ax.get_legend_handles_labels()
+        if labels:
+            ax.legend()
+            
         fig.savefig(output_folder / f"{metric_name}.png", dpi=200, bbox_inches="tight")
         plt.close(fig)
