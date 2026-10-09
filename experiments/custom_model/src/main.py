@@ -19,7 +19,7 @@ def main():
     model_name = model.__class__.__name__
     optimizer = Adam(
         model.parameters(),
-        lr = 0.004,
+        lr = 3e-4,
     )
     epochs = 100
 
